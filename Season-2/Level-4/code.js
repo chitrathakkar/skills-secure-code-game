@@ -29,7 +29,7 @@ app.post("/ufo/upload", upload.single("file"), (req, res) => {
     return res.status(400).send("No file uploaded.");
   }
 
-  console.log("Received uploaded file:", req.file.originalname);
+  console.log("Received uploaded file:");
 
   const uploadedFilePath = path.join(__dirname, req.file.originalname);
   fs.writeFileSync(uploadedFilePath, req.file.buffer);
@@ -46,8 +46,8 @@ app.post("/ufo", (req, res) => {
   } else if (contentType === "application/xml") {
     try {
       const xmlDoc = libxmljs.parseXml(req.body, {
-        replaceEntities: true,
-        recover: true,
+        replaceEntities: false,
+        recover: false,
         nonet: false,
       });
 
