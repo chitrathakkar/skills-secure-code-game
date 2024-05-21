@@ -17,6 +17,7 @@
 import os
 import re
 from flask import Flask, request, render_template
+from markupsafe import escape
 app = Flask(__name__)
 
 # Set the absolute path to the template directory
@@ -30,13 +31,15 @@ planet_data = {
     "Earth": "Our home planet and the only known celestial body to support life.",
     "Mars": "The fourth planet from the Sun and often called the 'Red Planet'.",
     "Jupiter": "The largest planet in the Solar System and known for its great red spot.",
+    
 }
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
     if request.method == 'POST':
         planet = request.form.get('planet')
-        sanitized_planet = re.sub(r'[<>{}[\]]', '', planet if planet else '')
+        # sanitized_planet = re.sub(r'[<>{}[\]]', '', planet if planet else '')
+        sanitized_planet = escape(planet)
 
         if sanitized_planet:
             if 'script' in sanitized_planet.lower() :
